@@ -1,0 +1,13 @@
+flake8
+flake8-builtins
+flake8-commas
+flake8-import-order
+flake8-variables-names
+mccabe
+pep8-naming
+pycodestyle
+pyflakes
+flake8-annotations
+pytest
+pytest-cov
+mypy

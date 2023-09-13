@@ -1,30 +1,31 @@
+import codecs
 import csv
 from typing import Any
 
-from django.db.models import QuerySet
+from django.db.models import (
+    QuerySet,
+)
 
-from .models import Customer
+from rest_framework.response import Response
+
+from .models import (
+    Customer,
+)
+from .serializers import DealSerializer
 
 
-def top_five_total() -> QuerySet:
-    return Customer.objects.order_by('spent_money').prefetch_related('gems')
+class CustomerService:
+    @classmethod
+    def top_five_total(cls) -> QuerySet:
+        return Customer.objects.prefetch_related('gems').order_by('spent_money')
 
-
-def import_csv(csv_file: Any) -> Any:
-    reader = csv.DictReader(
-        (line.decode() for line in csv_file),
-        fieldnames=[
-            'username',
-            'item',
-            'total',
-            'quantity',
-            'date',
-        ],
-    )
-
-    deals = []
-    next(reader)
-    for row in reader:
-        deals.append(row)
-
-    return (deals, type(deals))
+    @classmethod
+    def import_csv(cls, file_object: Any) -> Response:
+        reader = csv.DictReader(codecs.iterdecode(file_object, 'utf-8'), delimiter=',')
+        serializer = DealSerializer(data=list(reader), many=True)
+        if serializer.is_valid():
+            serializer.save()
+            DealSerializer.create_many()
+        return Response({
+            'data': serializer.errors,
+        })

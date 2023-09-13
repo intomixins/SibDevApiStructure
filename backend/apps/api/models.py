@@ -2,7 +2,10 @@ from django.db import models
 
 
 class Gem(models.Model):
-    name = models.CharField(max_length=128, unique=True)
+    name = models.CharField(
+        max_length=128,
+        unique=True,
+    )
 
     def __str__(self) -> str:
         return self.name
@@ -10,7 +13,7 @@ class Gem(models.Model):
 
 class Customer(models.Model):
     username = models.CharField(max_length=128)
-    spent_money = models.IntegerField()
+    spent_money = models.IntegerField(default=0)
     gems = models.ManyToManyField(
         Gem,
         related_name='customers',
@@ -36,7 +39,7 @@ class Deal(models.Model):
     )
     total = models.IntegerField()
     quantity = models.IntegerField()
-    date = models.DateTimeField()
+    date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
         return f'{self.username}: {self.item}x{self.quantity}'

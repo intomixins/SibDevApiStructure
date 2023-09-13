@@ -3,3 +3,5 @@ venv
 .env
 mypy_cache/
 .vscode/
+test.csv
+.idea/

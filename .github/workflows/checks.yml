@@ -1,0 +1,24 @@
+name: Code checks
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+      - name: Install deps
+        run: |
+            pip install poetry
+            poetry install
+            pip install flake8
+      - name: Run flake8
+        run: python -m flake8

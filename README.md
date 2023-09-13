@@ -1,0 +1,1 @@
+[![Code checks](https://github.com/intomixins/SibDevApiStructure/actions/workflows/checks.yml/badge.svg)](https://github.com/intomixins/SibDevApiStructure/actions/workflows/checks.yml)

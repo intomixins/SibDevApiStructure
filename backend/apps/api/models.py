@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Gem(models.Model):
+    """модель камня."""
     name = models.CharField(
         max_length=128,
         unique=True,
@@ -12,6 +13,7 @@ class Gem(models.Model):
 
 
 class Customer(models.Model):
+    """модель покупателя."""
     username = models.CharField(max_length=128)
     spent_money = models.IntegerField(default=0)
     gems = models.ManyToManyField(
@@ -19,12 +21,17 @@ class Customer(models.Model):
         related_name='customers',
         blank=True,
     )
+    count_gems = models.CharField(
+        max_length=455,
+        default='',
+    )
 
     def __str__(self) -> str:
         return self.username
 
 
 class Deal(models.Model):
+    """модель сделки."""
     username = models.ForeignKey(
         Customer,
         on_delete=models.CASCADE,

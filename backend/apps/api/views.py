@@ -16,12 +16,14 @@ class ApiView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def get(self, request: Request) -> Response:
-        queryset = CustomerService.top_five_total()
+        """метод get"""
+        queryset = CustomerService.final_result()
         serializer = CustomerSerializer(queryset, many=True)
         return Response({
             'response': serializer.data,
         })
 
     def post(self, request: Request) -> Response:
+        """метод post"""
         file_object = request.FILES.get('deals')
         return CustomerService.import_csv(file_object=file_object)

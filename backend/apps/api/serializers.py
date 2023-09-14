@@ -14,22 +14,18 @@ from .models import (
 
 
 class CustomerSerializer(serializers.ModelSerializer):
-    gems = serializers.SlugRelatedField(
-        slug_field='name',
-        read_only=True,
-        many=True,
-    )
-
+    """сереализатор для модели пользователя."""
     class Meta:
         model = Customer
         fields = (
             'username',
             'spent_money',
-            'gems',
+            'count_gems',
         )
 
 
 class GemSerializer(serializers.ModelSerializer):
+    """сереализатор для модели камня."""
     class Meta:
         model = Gem
         fields = (
@@ -38,6 +34,7 @@ class GemSerializer(serializers.ModelSerializer):
 
 
 class DealSerializer(serializers.ModelSerializer):
+    """сереализатор для модели сделки."""
     deals: list = []
 
     customer = serializers.CharField(
@@ -59,13 +56,15 @@ class DealSerializer(serializers.ModelSerializer):
 
     @classmethod
     def create(cls, validated_data: Any) -> None:
-        validated_data['item'] = (
+        """ создание экземпляров моделей,
+        вызывается serializer.save()"""
+        validated_data['item'], is_new_gem = (
             Gem
             .objects
             .get_or_create(
                 name=validated_data['item'],
             )
-        )[0]
+        )
 
         validated_data['customer'], is_new_customer = (
             Customer
@@ -94,6 +93,7 @@ class DealSerializer(serializers.ModelSerializer):
 
     @classmethod
     def create_many(cls) -> Response:
+        """метод массового создания сделок."""
         Deal.objects.bulk_create(
             [
                 Deal(
@@ -108,5 +108,5 @@ class DealSerializer(serializers.ModelSerializer):
         )
         cls.deals = []
         return Response(
-            {'status': 'Imported'}, status=status.HTTP_201_CREATED,
+            {'Status': 'OK - файл был обработан без ошибок;'}, status=status.HTTP_201_CREATED,
         )

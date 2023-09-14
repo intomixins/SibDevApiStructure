@@ -6,6 +6,6 @@ from .models import (
     Gem,
 )
 
-admin.site.register(Customer)
-admin.site.register(Gem)
-admin.site.register(Deal)
+admin.site.register(Customer)  # админка покупателя
+admin.site.register(Gem)  # админка камня
+admin.site.register(Deal)  # админка сделки

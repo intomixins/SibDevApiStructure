@@ -56,7 +56,7 @@ class DealSerializer(serializers.ModelSerializer):
 
     @classmethod
     def create(cls, validated_data: Any) -> None:
-        """ создание экземпляров моделей,
+        """создание экземпляров моделей,
         вызывается serializer.save()"""
         validated_data['item'], is_new_gem = (
             Gem
